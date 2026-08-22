@@ -18,16 +18,42 @@ A logistics delivery management platform that provides dynamic agent dispatching
 ---
 
 ## 📖 Table of Contents
-1. [Setup Guide (Local Installation)](#-setup-guide-local-installation)
-2. [Environment Configuration (`.env.example`)](#-environment-configuration-enevexample)
-3. [Database Schema (Data Modeling)](#-database-schema-data-modeling)
-4. [Rate Calculation Logic Explanation](#-rate-calculation-logic-explanation)
-5. [API Documentation (Backend Endpoints)](#-api-documentation-backend-endpoints)
-6. [System Design Write-Up (Evaluation Special)](#-system-design-write-up-evaluation-special)
+1. [Visual Walkthrough (User Interface)](#-visual-walkthrough-user-interface)
+2. [Setup Guide (Local Installation)](#-setup-guide-local-installation)
+3. [Environment Configuration (`.env.example`)](#-environment-configuration-enevexample)
+4. [Database Schema (Data Modeling)](#-database-schema-data-modeling)
+5. [Rate Calculation Logic Explanation](#-rate-calculation-logic-explanation)
+6. [API Documentation (Backend Endpoints)](#-api-documentation-backend-endpoints)
+7. [System Design Write-Up (Evaluation Special)](#-system-design-write-up-evaluation-special)
    - [Rate Calculation Engine](#1-rate-calculation-engine)
    - [Zone Detection Approach](#2-zone-detection-approach)
    - [Auto-Assignment Logic & Availability Modeling](#3-auto-assignment-logic--availability-modeling)
    - [Failed Delivery & Rescheduling Flow](#4-failed-delivery--rescheduling-flow)
+
+---
+
+## 📸 Visual Walkthrough (User Interface)
+
+### 1. Placing a New Shipment Order
+Customers select dynamic pincodes (which load automatically from the active zones database). The rate calculation engine displays a live cost breakdown showing weights and COD surcharges before placing the shipment.
+
+| Form Layout (Top Half) | Form Cost Breakdown (Bottom Half) |
+|---|---|
+| ![Place Order Top](docs/screenshots/01_place_order_modal_top.png) | ![Place Order Bottom](docs/screenshots/02_place_order_modal_bottom.png) |
+
+---
+
+### 2. Customer Dashboard Overview
+A card-based management dashboard. Customers can view active shipments, tracking statuses, assigned agents, and billing details. Clicking a card opens the real-time tracking timeline.
+
+![Customer Dashboard](docs/screenshots/03_customer_dashboard.png)
+
+---
+
+### 3. Agent Task Dashboard
+Delivery agents toggle their availability status (`AVAILABLE`, `OFFLINE`). Assigned shipments appear instantly in real-time, allowing agents to progress orders through pickup, transit, and delivery states.
+
+![Agent Dashboard](docs/screenshots/04_agent_dashboard.png)
 
 ---
 
