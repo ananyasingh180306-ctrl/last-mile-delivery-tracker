@@ -78,6 +78,25 @@ When an order is assigned, it appears instantly on the Agent's active shipment d
 
 ---
 
+### 🛠️ Admin Side Workflow
+
+#### 1. Unified Control Dashboard
+Admins manage all shipments, system rates, and zone parameters from a unified multi-tab dashboard. The main view displays a grid of all orders with live statuses and actions.
+
+![Admin Dashboard](docs/screenshots/10_admin_dashboard.png)
+
+#### 2. Manual Dispatch & Re-assignment
+Admins can manually dispatch new shipments or override existing ones, selecting from a load-balanced dropdown list of online agents and their concurrent active capacities.
+
+![Admin Reassign Modal](docs/screenshots/11_admin_reassign_modal.png)
+
+#### 3. Administrative Override Control
+Admins can bypass standard lifecycle flows to force status changes (e.g., resolve exceptions or complete stuck orders) with mandatory auditing override notes.
+
+![Admin Override Modal](docs/screenshots/12_admin_override_modal.png)
+
+---
+
 ## 💻 Setup Guide (Local Installation)
 
 ### Prerequisites
