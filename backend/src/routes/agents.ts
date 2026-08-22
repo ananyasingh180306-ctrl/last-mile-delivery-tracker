@@ -181,7 +181,7 @@ router.post('/status', authenticateJWT, requireRole(['AGENT']), async (req: Auth
 
     // If status is changed to OFFLINE, they shouldn't get new orders, but they still have capacity activeCount.
     // If changed to AVAILABLE, check if they are already at max capacity. If so, set status to BUSY instead.
-    let finalStatus = status;
+    let finalStatus: string = status;
     if (status === 'AVAILABLE' && agent.activeCount >= agent.maxConcurrent) {
       finalStatus = 'BUSY';
     }
