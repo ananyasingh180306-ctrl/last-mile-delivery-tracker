@@ -34,26 +34,47 @@ A logistics delivery management platform that provides dynamic agent dispatching
 
 ## 📸 Visual Walkthrough (User Interface)
 
-### 1. Placing a New Shipment Order
+### 🚪 Registration & Role Selector
+Users can create new accounts and self-select their role (`Customer`, `Agent`, `Admin`) to enter their respective management dashboards.
+
+![Sign Up / Role Selector](docs/screenshots/05_signup_form.png)
+
+---
+
+### 👤 Customer Side Workflow
+
+#### 1. Placing a New Shipment Order
 Customers select dynamic pincodes (which load automatically from the active zones database). The rate calculation engine displays a live cost breakdown showing weights and COD surcharges before placing the shipment.
 
 | Form Layout (Top Half) | Form Cost Breakdown (Bottom Half) |
 |---|---|
 | ![Place Order Top](docs/screenshots/01_place_order_modal_top.png) | ![Place Order Bottom](docs/screenshots/02_place_order_modal_bottom.png) |
 
----
-
-### 2. Customer Dashboard Overview
-A card-based management dashboard. Customers can view active shipments, tracking statuses, assigned agents, and billing details. Clicking a card opens the real-time tracking timeline.
+#### 2. Customer Dashboard Overview
+A card-based management dashboard. Customers can view active shipments, tracking statuses, assigned agents, and billing details.
 
 ![Customer Dashboard](docs/screenshots/03_customer_dashboard.png)
 
+#### 3. Real-Time Shipment Tracking Screen
+Clicking on any order opens the tracking workspace. It displays the current location details, live transit step dots, the invoice details, and a dynamic audit trail containing timestamps and note explanations.
+
+| Live Tracking Progress Bar | Timeline Audit Trail |
+|---|---|
+| ![Tracking Progress](docs/screenshots/08_customer_tracking_screen.png) | ![Timeline Audit](docs/screenshots/09_customer_timeline_audit.png) |
+
 ---
 
-### 3. Agent Task Dashboard
-Delivery agents toggle their availability status (`AVAILABLE`, `OFFLINE`). Assigned shipments appear instantly in real-time, allowing agents to progress orders through pickup, transit, and delivery states.
+### 🚴 Agent Side Workflow
 
-![Agent Dashboard](docs/screenshots/04_agent_dashboard.png)
+#### 1. Shift Availability Toggle
+Agents can log in and toggle their shift availability state between `AVAILABLE` (Go Online) and `OFFLINE` (Go Offline) to control auto-assignment.
+
+![Agent Shift Toggle](docs/screenshots/06_agent_profile_offline.png)
+
+#### 2. Active Orders & Lifecycle Progress
+When an order is assigned, it appears instantly on the Agent's active shipment directory. Agents can view pickup/drop locations and advance status logs (e.g., mark as picked up, in transit, delivered, or failed).
+
+![Agent Dashboard](docs/screenshots/07_agent_assigned_orders.png)
 
 ---
 
