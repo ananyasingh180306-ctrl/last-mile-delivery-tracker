@@ -17,14 +17,56 @@ A logistics delivery management platform that provides dynamic agent dispatching
 
 ---
 
+## 🗺️ System Architecture & UI Flow
+
+```mermaid
+graph TD
+    %% Roles
+    User[User Session] -->|Auth Login| Router{Role Selector}
+    
+    %% Customer Flow
+    Router -->|CUSTOMER| CustDash[Customer Dashboard]
+    CustDash -->|Click 'Place New Order'| Modal[Place Order Modal]
+    Modal -->|Select Dynamic Pincode| Coordinates[Auto-coordinates & Volumetric calculation]
+    Coordinates -->|Confirm & Save| Db[(Prisma SQLite Database)]
+    CustDash -->|Click Order Card| Tracker[Live Tracking Screen]
+    Tracker -->|Socket.io WebSockets| RealTime[Real-time Timeline Updates]
+    Tracker -->|Delivery Failed| Resched[Reschedule Attempt Modal]
+    Resched -->|Resubmit| Db
+    
+    %% Agent Flow
+    Router -->|AGENT| AgentDash[Agent Dashboard]
+    AgentDash -->|Go Online/Offline| ShiftToggle[Shift Availability Status]
+    AgentDash -->|Task Grid| OrderCard[Order Action Card]
+    OrderCard -->|Mark Picked Up / Transit / Out for Delivery / Delivered / Failed| Db
+    
+    %% Admin Flow
+    Router -->|ADMIN| AdminDash[Admin Dashboard Control Panel]
+    AdminDash -->|Manage Shipments| Shipments[Shipments Directory Table]
+    Shipments -->|Actions| Reassign[Re-assign Agent Modal]
+    Shipments -->|Actions| Override[Force Override Status Modal]
+    AdminDash -->|Zone Boundaries| ZonesConfig[Create Zones & Pincode Mappings]
+    AdminDash -->|Rates & COD Config| RatesConfig[Create Rate Card Version & Edit COD config]
+    AdminDash -->|Delivery Agents| AgentRegistry[Add New Agent Profiles & Reset Passwords]
+    
+    %% Backend System integrations
+    Db -->|Prisma Event Triggers| SocketService[Socket.io WebSockets Gateway]
+    Db -->|Notification Service| SMTPService[Nodemailer SMTP Mail Server]
+    SMTPService -->|Dispatches Transactional Emails| CustomerInbox[Customer Inbox / Mailtrap Sandbox]
+    SMTPService -->|Dispatches Assignment Emails| AgentInbox[Agent Inbox]
+```
+
+---
+
 ## 📖 Table of Contents
-1. [Visual Walkthrough (User Interface)](#-visual-walkthrough-user-interface)
-2. [Setup Guide (Local Installation)](#-setup-guide-local-installation)
-3. [Environment Configuration (`.env.example`)](#-environment-configuration-enevexample)
-4. [Database Schema (Data Modeling)](#-database-schema-data-modeling)
-5. [Rate Calculation Logic Explanation](#-rate-calculation-logic-explanation)
-6. [API Documentation (Backend Endpoints)](#-api-documentation-backend-endpoints)
-7. [System Design Write-Up (Evaluation Special)](#-system-design-write-up-evaluation-special)
+1. [System Architecture & UI Flow](#-system-architecture--ui-flow)
+2. [Visual Walkthrough (User Interface)](#-visual-walkthrough-user-interface)
+3. [Setup Guide (Local Installation)](#-setup-guide-local-installation)
+4. [Environment Configuration (`.env.example`)](#-environment-configuration-enevexample)
+5. [Database Schema (Data Modeling)](#-database-schema-data-modeling)
+6. [Rate Calculation Logic Explanation](#-rate-calculation-logic-explanation)
+7. [API Documentation (Backend Endpoints)](#-api-documentation-backend-endpoints)
+8. [System Design Write-Up (Evaluation Special)](#-system-design-write-up-evaluation-special)
    - [Rate Calculation Engine](#1-rate-calculation-engine)
    - [Zone Detection Approach](#2-zone-detection-approach)
    - [Auto-Assignment Logic & Availability Modeling](#3-auto-assignment-logic--availability-modeling)
@@ -61,6 +103,11 @@ Clicking on any order opens the tracking workspace. It displays the current loca
 | Live Tracking Progress Bar | Timeline Audit Trail |
 |---|---|
 | ![Tracking Progress](docs/screenshots/08_customer_tracking_screen.png) | ![Timeline Audit](docs/screenshots/09_customer_timeline_audit.png) |
+
+#### 4. Automated Email Notifications
+For every single lifecycle status change (e.g., order placed, assigned, picked up, in transit, delivered), the system automatically compiles and dispatches a detailed email notification to the customer's mailbox.
+
+![Customer Mailtrap Inbox](docs/screenshots/17_customer_mailtrap_inbox.png)
 
 ---
 
