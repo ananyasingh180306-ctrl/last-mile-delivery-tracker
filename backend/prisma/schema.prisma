@@ -1,0 +1,131 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                 String               @id @default(uuid())
+  email              String               @unique
+  passwordHash       String
+  role               String               // "CUSTOMER", "AGENT", "ADMIN"
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  orders             Order[]              @relation("CustomerOrders")
+  agentProfile       Agent?
+  OrderStatusHistory OrderStatusHistory[]
+  RescheduleRequest  RescheduleRequest[]
+}
+
+model Agent {
+  id                 String   @id @default(uuid())
+  userId             String   @unique
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status             String   // "AVAILABLE", "BUSY", "OFFLINE"
+  currentLat         Float
+  currentLng         Float
+  maxConcurrent      Int      @default(3)
+  activeCount        Int      @default(0)
+  zoneCoverage       String   // Comma-separated list of Zone IDs, e.g. "zone-1,zone-2"
+  orders             Order[]  @relation("AgentOrders")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model Zone {
+  id        String            @id @default(uuid())
+  name      String            @unique
+  mappings  AreaZoneMapping[]
+  createdAt DateTime          @default(now())
+}
+
+model AreaZoneMapping {
+  id        String   @id @default(uuid())
+  pincode   String   @unique
+  areaName  String
+  zoneId    String
+  zone      Zone     @relation(fields: [zoneId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model RateCard {
+  id           String   @id @default(uuid())
+  orderType    String   // "B2B", "B2C"
+  zoneRelation String   // "INTRA", "INTER"
+  baseRate     Float
+  perKgRate    Float
+  effectiveFrom DateTime
+  effectiveTo   DateTime
+  createdAt    DateTime @default(now())
+}
+
+model CODConfig {
+  id              String   @id @default(uuid())
+  orderType       String   @unique // "B2B", "B2C"
+  surchargeAmount Float
+  createdAt       DateTime @default(now())
+}
+
+model Order {
+  id               String               @id @default(uuid())
+  customerId       String
+  customer         User                 @relation("CustomerOrders", fields: [customerId], references: [id], onDelete: Cascade)
+  pickupAddress    String
+  pickupPincode    String
+  pickupLat        Float
+  pickupLng        Float
+  dropAddress      String
+  dropPincode      String
+  dropLat          Float
+  dropLng          Float
+  length           Float
+  width            Float
+  height           Float
+  actualWeight     Float
+  orderType        String               // "B2B", "B2C"
+  paymentType      String               // "PREPAID", "COD"
+  chargeBreakdown  String               // JSON snapshot of rate calculation
+  currentStatus    String               // "PLACED", "ASSIGNED", "PICKED_UP", "IN_TRANSIT", "OUT_FOR_DELIVERY", "DELIVERED", "FAILED"
+  agentId          String?
+  agent            Agent?               @relation("AgentOrders", fields: [agentId], references: [id], onDelete: SetNull)
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+  statusHistory    OrderStatusHistory[]
+  rescheduleRequests RescheduleRequest[]
+  notifications    NotificationLog[]
+}
+
+model OrderStatusHistory {
+  id        String   @id @default(uuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  status    String
+  actorRole String   // "CUSTOMER", "AGENT", "ADMIN", "SYSTEM"
+  actorId   String
+  actor     User     @relation(fields: [actorId], references: [id])
+  timestamp DateTime @default(now())
+  notes     String?
+}
+
+model RescheduleRequest {
+  id            String   @id @default(uuid())
+  orderId       String
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  requestedDate DateTime
+  createdBy     String
+  user          User     @relation(fields: [createdBy], references: [id])
+  createdAt     DateTime @default(now())
+}
+
+model NotificationLog {
+  id        String   @id @default(uuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  channel   String   // "EMAIL", "SMS"
+  recipient String
+  status    String   // "SENT", "FAILED"
+  sentAt    DateTime @default(now())
+}

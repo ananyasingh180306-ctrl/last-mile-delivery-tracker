@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: lastmile_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: lastmile_user
+      POSTGRES_PASSWORD: lastmile_password
+      POSTGRES_DB: lastmile_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../Dockerfile.backend
+    container_name: lastmile_backend
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      PORT: 5000
+      DATABASE_URL: "postgresql://lastmile_user:lastmile_password@db:5432/lastmile_db?schema=public"
+      JWT_SECRET: "super-secret-key-for-last-mile-delivery-tracker-12345"
+      NODE_ENV: "production"
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../Dockerfile.frontend
+    container_name: lastmile_frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

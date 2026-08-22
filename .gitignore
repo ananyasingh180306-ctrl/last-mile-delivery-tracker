@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Environment Secrets
+.env
+.env*.local
+
+# SQLite Database
+*.db
+*.db-journal
+
+# Production Builds
+dist/
+build/
+.next/
+out/
+
+# IDE and System Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Agent/Antigravity System Directories
+.system_generated/
+.user_uploaded/
+.gemini/
+*.log
+ps1/
+*.ps1
