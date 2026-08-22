@@ -15,6 +15,11 @@ A logistics delivery management platform that provides dynamic agent dispatching
   <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
 </p>
 
+### 🔗 Live Deployment Links
+* 🌐 **Frontend Application**: [https://last-mile-delivery-tracker-fawn.vercel.app](https://last-mile-delivery-tracker-fawn.vercel.app)
+* ⚙️ **Backend API Server**: [https://last-mile-delivery-tracker-ekb3.onrender.com](https://last-mile-delivery-tracker-ekb3.onrender.com)
+* 📖 **Interactive Swagger API Docs**: [https://last-mile-delivery-tracker-ekb3.onrender.com/api-docs](https://last-mile-delivery-tracker-ekb3.onrender.com/api-docs)
+
 ---
 
 ## 🗺️ System Architecture & UI Flow
