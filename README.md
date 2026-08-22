@@ -85,15 +85,32 @@ Admins manage all shipments, system rates, and zone parameters from a unified mu
 
 ![Admin Dashboard](docs/screenshots/10_admin_dashboard.png)
 
-#### 2. Manual Dispatch & Re-assignment
+#### 2. Advanced Status Filters
+The shipment list can be dynamically filtered using the Status dropdown selector, enabling quick isolation of `PLACED`, `ASSIGNED`, or `FAILED` orders.
+
+![Admin Shipments Filter](docs/screenshots/16_admin_shipments_filter.png)
+
+#### 3. Manual Dispatch & Re-assignment
 Admins can manually dispatch new shipments or override existing ones, selecting from a load-balanced dropdown list of online agents and their concurrent active capacities.
 
 ![Admin Reassign Modal](docs/screenshots/11_admin_reassign_modal.png)
 
-#### 3. Administrative Override Control
+#### 4. Administrative Override Control
 Admins can bypass standard lifecycle flows to force status changes (e.g., resolve exceptions or complete stuck orders) with mandatory auditing override notes.
 
 ![Admin Override Modal](docs/screenshots/12_admin_override_modal.png)
+
+#### 5. Zones & Area Mapping Control
+Admins can declare new shipping zones and map specific pincodes/area names to them, which automatically updates the system's dynamic pricing and dispatch regions.
+
+| Zone Mappings Config Form | Zone Mapping DB Overview |
+|---|---|
+| ![Zone Boundaries Form](docs/screenshots/14_admin_zone_boundaries.png) | ![Zone Mapping DB](docs/screenshots/15_admin_zone_mapping_db.png) |
+
+#### 6. Rate Card & Surcharges Configurator
+Admins can create new rate card versions (setting base and per-kg rates) and edit COD surcharges dynamically.
+
+![Rates and Surcharge Dashboard](docs/screenshots/13_admin_rates_config.png)
 
 ---
 
