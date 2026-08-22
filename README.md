@@ -159,6 +159,11 @@ Admins can create new rate card versions (setting base and per-kg rates) and edi
 
 ![Rates and Surcharge Dashboard](docs/screenshots/13_admin_rates_config.png)
 
+#### 7. Registered Delivery Agents & Roster Management
+Admins can register new delivery agents, set capacity limits, check coverage zone assignments, and reset agent account passwords.
+
+![Admin Delivery Agents Dashboard](docs/screenshots/18_admin_delivery_agents_roster.png)
+
 ---
 
 ## 💻 Setup Guide (Local Installation)
